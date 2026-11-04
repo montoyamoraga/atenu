@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "atenu-v-0-rev-a") (type "KiCad") (uri "${KIPRJMOD}/bibliotecas/atenu-v-0-rev-a.pretty") (options "") (descr "biblioteca local copiada de cuadra-v-0-rev-a"))
+)
