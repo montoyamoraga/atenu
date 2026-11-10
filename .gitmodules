@@ -1,0 +1,3 @@
+[submodule "terceros/popusintes-cajas-paneles"]
+	path = terceros/popusintes-cajas-paneles
+	url = https://github.com/piruetasxyz/popusintes-cajas-paneles.git
