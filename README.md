@@ -47,12 +47,12 @@ Ya está hecho en [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b):
 
 - Biblioteca propia `popusintes` ([bibliotecas/popusintes.pretty](./hardware/atenu-v-0-rev-b/bibliotecas/popusintes.pretty) y [bibliotecas/popusintes.3dshapes](./hardware/atenu-v-0-rev-b/bibliotecas/popusintes.3dshapes)), copiada de [popusintes-esquematicos-placas](https://github.com/piruetasxyz/popusintes-esquematicos-placas) para que el repositorio sea autocontenido, con la huella corregida `Potenciometro_Alpha_RD901F_Vertical`: misma geometría que la de rev-a, con los pads 1 y 3 intercambiados. Visto de frente con las patas hacia abajo, pad 1 = pata izquierda (antihorario, GND), pad 3 = pata derecha (horario, entrada).
 - Pistas de entrada de RV1 y RV2 movidas a la pata derecha. DRC sin conexiones pendientes y sin diferencias con el esquemático.
-- Todo renombrado de rev-a a rev-b, incluida la carpeta de salida de los gerbers (`../atenu-v-0-rev-b-fab/`), para no pisar los archivos de rev-a.
-- Modelos SPICE y campos `Sim.*` en el esquemático.
+- Todo renombrado de rev-a a rev-b, incluida la carpeta de salida de los gerbers (`../atenu-v-0-rev-b-fab/`), para no pisar los archivos de rev-a. La fecha de la serigrafía quedó en `2026-11`.
+- Modelos SPICE y campos `Sim.*` en el esquemático y en la placa.
 
 Falta:
 
-- [ ] Rellenar las zonas en KiCad (tecla B) y revisar los potenciómetros en el visor 3D.
+- [ ] Rellenar las zonas en KiCad (tecla B), guardar y revisar los potenciómetros en el visor 3D. **Antes de generar gerbers**: el relleno guardado de la zona GND es anterior al cambio de pads, así que todavía cubre la pata nueva de la entrada (la dejaría en corto con GND) y no llega a la pata nueva de GND. El DRC sin rellenar muestra esos errores; después de rellenar, el DRC queda sin conexiones pendientes y sin diferencias con el esquemático.
 - [ ] Revisar el texto de la serigrafía en un computador con las fuentes del proyecto instaladas antes de generar los gerbers.
 - [ ] Generar gerbers y archivos de taladrado de rev-b (`hardware/atenu-v-0-rev-b-fab`).
 - [ ] Panel de rev-b: las posiciones de los potenciómetros y jacks no cambiaron, así que el panel de rev-a calza. Falta decidir si se copia a `panel/atenu-v-0-rev-b` con `VERSION = "v0.1 rev-b"`.
@@ -88,3 +88,27 @@ atenu es (c) 2026 piruetas SpA / Aarón Montoya-Moraga.
 - El nombre, logo y marca de piruetas no están cubiertos por estas licencias: ver [LicenseRef-piruetas-branding](./LICENSES/LicenseRef-piruetas-branding.txt).
 
 Ver [LICENSE.md](./LICENSE.md) para los detalles. El repositorio sigue la especificación [REUSE](https://reuse.software/).
+
+### Pendiente antes de certificar con OSHWA
+
+atenu todavía no está postulado a la certificación de [OSHWA](https://certification.oshwa.org/). Antes de postular hay que corregir las licencias de algunos archivos de terceros en las `bibliotecas/` de cada revisión: hoy [REUSE.toml](./REUSE.toml) los marca como CERN-OHL-P-2.0 de piruetas junto con todo `hardware/**`, pero no son trabajo propio.
+
+| Archivo | Origen | Licencia | Cómo se verificó |
+| --- | --- | --- | --- |
+| `PJ398SM.step` (modelo 3D del jack) | [clacktronics/AudioJacks](https://github.com/clacktronics/AudioJacks), "Copyright (c) 2021 Barwise" | MIT | archivo idéntico (mismo hash) |
+| `Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical.kicad_mod` (huella del jack) | [clacktronics/AudioJacks](https://github.com/clacktronics/AudioJacks), convertida al formato nuevo de KiCad | MIT | mismo nombre, descripción y etiquetas |
+| `ALPHA-RD901F-40.step` (modelo 3D del potenciómetro) | [dhaillant/kicad-3dmodels](https://github.com/dhaillant/kicad-3dmodels), commit `e87a021` (2018-09-09) | GPL-3.0 | archivo idéntico (mismo hash); la licencia del repositorio es anterior a ese commit |
+| Huella del potenciómetro (`POT_TH_Alps_RK09K_Single_Vertical` en rev-a, `Potenciometro_Alpha_RD901F_Vertical` en rev-b) | muy probablemente la biblioteca de huellas de KiCad, rotada; en rev-b además con los pads 1 y 3 intercambiados | CC-BY-SA-4.0 con la excepción de KiCad para diseños | descripción igual a la de la biblioteca antigua de KiCad y misma geometría; probable, no confirmado |
+| `SOD-123FL_L2.8-W1.8-LS3.7-R-RD.step` / `.wrl` y `Diodo_SOD-123FL.kicad_mod` (solo en rev-b) | EasyEDA/LCSC, convertidos con `easyeda2kicad` | sin licencia clara | atenu no los usa: vienen en la copia completa de `popusintes` |
+
+Los dos modelos 3D llegaron a través de la biblioteca BYOM de [popusintes-esquematicos-placas](https://github.com/piruetasxyz/popusintes-esquematicos-placas), que no trae archivo de licencia ni indica de dónde salieron sus archivos.
+
+Falta:
+
+- [ ] Decidir el modelo 3D del potenciómetro: mantener el de dhaillant (GPL-3.0) y agregar su fuente de FreeCAD, `ALPHA-RD901F-40.fcstd` del mismo commit, como pide la GPL; o reemplazarlo por el modelo 3D `Potentiometer_Alps_RK09K_Single_Vertical` de la biblioteca de KiCad, que es casi igual y tiene la licencia de la biblioteca de KiCad. Como el modelo es un archivo aparte que solo se usa para el render 3D, no debería afectar la licencia CERN-OHL-P-2.0 de la placa (lectura propia, no es asesoría legal).
+- [ ] Agregar a [LICENSES](./LICENSES) los textos que falten: `MIT.txt`, `GPL-3.0-only.txt` (si se mantiene el modelo de dhaillant) y una `LicenseRef` con la excepción de la biblioteca de KiCad.
+- [ ] Agregar en [REUSE.toml](./REUSE.toml) una anotación por cada archivo de terceros, después de la de `hardware/**` para que la reemplace, en rev-a y en rev-b.
+- [ ] Quitar de rev-b los archivos del diodo SOD-123FL, que atenu no usa y no tienen licencia clara.
+- [ ] Agregar una sección de modelos y huellas de terceros a este README y a [LICENSE.md](./LICENSE.md), con créditos a clacktronics/Barwise, dhaillant y la biblioteca de KiCad.
+- [ ] Hacer los mismos arreglos en [popusintes-esquematicos-placas](https://github.com/piruetasxyz/popusintes-esquematicos-placas), que es la fuente de la biblioteca `popusintes`, y en suma, que tiene los mismos archivos.
+- [ ] Correr `reuse lint` (está en [requirements.txt](./requirements.txt)) y revisar que no queden archivos sin licencia.
