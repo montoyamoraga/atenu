@@ -48,6 +48,14 @@ Generados automáticamente por GitHub Actions a partir de `hardware/atenu-v-0-re
 Generado a partir de `hardware/atenu-v-0-rev-a/atenu-v-0-rev-a.kicad_sch`.
 
 <!-- BOM_TABLE_START -->
+
+| Referencias | Cantidad | Valor | Huella | Descripción |
+| --- | --- | --- | --- | --- |
+| J1, J2, J3, J4 | 4 | AudioJack2_SwitchT | atenu-v-0-rev-a:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical | Jack mono 3.5 mm, QingPu WQP-PJ398SM (tipo Thonkiconn), vertical, THT |
+| RV1, RV2 | 2 | B100k | atenu-v-0-rev-a:POT_TH_Alps_RK09K_Single_Vertical | Potenciómetro lineal 9 mm, Alpha RD901F (Thonk), vertical, THT |
+
+6 componentes en total.
+
 <!-- BOM_TABLE_END -->
 
 ## Créditos
