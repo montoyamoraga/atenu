@@ -1,0 +1,13 @@
+# Configuración de kicad-retrata (https://github.com/piruetasxyz/kicad-retrata).
+# Todas las rutas son relativas a la raíz del repositorio.
+carpeta-imagenes: docs/images
+
+descripciones:
+  "Connector_Audio:AudioJack2_SwitchT": "Jack mono 3.5 mm, QingPu WQP-PJ398SM (tipo Thonkiconn), vertical, THT"
+  "Device:R_Potentiometer": "Potenciómetro lineal 9 mm, Alpha RD901F (Thonk), vertical, THT"
+
+# Para cambiar de revisión, actualizar "proyecto" (por ejemplo rev-a → rev-b).
+modulos:
+  - nombre: atenu
+    proyecto: hardware/atenu-v-0-rev-a/atenu-v-0-rev-a
+    doc: docs/index.md
