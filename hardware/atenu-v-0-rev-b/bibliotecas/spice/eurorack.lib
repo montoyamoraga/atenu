@@ -1,0 +1,19 @@
+* eurorack.lib
+* modelos SPICE para los conectores de atenu, para simular el modulo sin agregar
+* fuentes al esquematico: cada conector se comporta como lo que tiene enchufado.
+* atenu es pasivo, asi que no necesita modelo de fuente de alimentacion.
+* copiado y adaptado de suma-v-0-rev-b/bibliotecas/spice/eurorack.lib
+
+* JACK_ENTRADA: jack de entrada con un oscilador enchufado (senoidal).
+* s: manga (sleeve), tn: switch (tip normal), t: punta (tip).
+* amplitud en volts pico (5 = 10 Vpp, nivel tipico de audio en eurorack).
+.SUBCKT JACK_ENTRADA s tn t PARAMS: amplitud=5 frecuencia=220
+VOSC t s SIN(0 {amplitud} {frecuencia})
+.ENDS JACK_ENTRADA
+
+* JACK_SALIDA: jack de salida con un cable a la entrada de otro modulo (100k).
+.SUBCKT JACK_SALIDA s tn t
+RCARGA t s 100k
+* el switch no se usa en las salidas: resistencia alta para que el nodo no quede flotando
+RTN tn s 1G
+.ENDS JACK_SALIDA

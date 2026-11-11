@@ -1,0 +1,72 @@
+name: Retratar y publicar
+
+# Genera las capturas y la BOM con kicad-retrata (y hace commit si cambian),
+# y después construye docs/ con Jekyll y lo despliega en GitHub Pages, todo
+# en la misma corrida.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    if: github.repository == 'piruetasxyz/atenu'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v7
+
+      # Talagante no puede quedar pública en el repositorio: se guarda en
+      # base64 en el secreto FUENTE_TALAGANTE y se escribe fuera del
+      # repositorio, para que no termine en el commit de kicad-retrata.
+      - name: Instalar fuentes privadas
+        env:
+          FUENTE_TALAGANTE: ${{ secrets.FUENTE_TALAGANTE }}
+        run: |
+          set -eu
+          if [ -z "$FUENTE_TALAGANTE" ]; then
+            echo "::error::Falta el secreto FUENTE_TALAGANTE."
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/fuentes"
+          printf '%s' "$FUENTE_TALAGANTE" | base64 --decode > "$RUNNER_TEMP/fuentes/Talagante.otf"
+
+      - name: Retratar con kicad-retrata
+        uses: piruetasxyz/kicad-retrata@v0
+        with:
+          carpeta-fuentes: ${{ runner.temp }}/fuentes
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v6
+
+      - name: Construir con Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./_site
+
+  desplegar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Desplegar en GitHub Pages
+        id: despliegue
+        uses: actions/deploy-pages@v5
