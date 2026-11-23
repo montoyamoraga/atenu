@@ -55,7 +55,7 @@ Falta:
 - [ ] Rellenar las zonas en KiCad (tecla B), guardar y revisar los potenciómetros en el visor 3D. **Antes de generar gerbers**: el relleno guardado de la zona GND es anterior al cambio de pads, así que todavía cubre la pata nueva de la entrada (la dejaría en corto con GND) y no llega a la pata nueva de GND. El DRC sin rellenar muestra esos errores; después de rellenar, el DRC queda sin conexiones pendientes y sin diferencias con el esquemático.
 - [ ] Revisar el texto de la serigrafía en un computador con las fuentes del proyecto instaladas antes de generar los gerbers.
 - [ ] Generar gerbers y archivos de taladrado de rev-b (`hardware/atenu-v-0-rev-b-fab`).
-- [ ] Panel de rev-b: las posiciones de los potenciómetros y jacks no cambiaron, así que el panel de rev-a calza. Falta decidir si se copia a `panel/atenu-v-0-rev-b` con `VERSION = "v0.1 rev-b"`.
+- [x] Panel de rev-b: las posiciones de los potenciómetros y jacks no cambiaron, así que se copió el panel de rev-a a `panel/atenu-v-0-rev-b` con `VERSION = "v0.1 rev-b"`.
 - [ ] Actualizar [kicad-retrata.yml](./kicad-retrata.yml) y [docs](./docs) para que apunten a rev-b.
 
 ## Estructura del repositorio
@@ -65,6 +65,7 @@ Falta:
 - [hardware/atenu-v-0-rev-a-fab](./hardware/atenu-v-0-rev-a-fab): gerbers y archivos de taladrado para fabricar la placa.
 - [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b): proyecto de KiCad de rev-b (en desarrollo). Sus [bibliotecas](./hardware/atenu-v-0-rev-b/bibliotecas) incluyen la biblioteca propia `popusintes` con la huella corregida del potenciómetro, y los modelos SPICE en `spice/`.
 - [panel/atenu-v-0-rev-a](./panel/atenu-v-0-rev-a): archivos fuente de OpenSCAD del panel de 5 HP, con los agujeros de los potenciómetros y jacks de la placa rev-a. Se abre [atenu.scad](./panel/atenu-v-0-rev-a/atenu.scad); la versión grabada en el panel está en [versiones.scad](./panel/atenu-v-0-rev-a/versiones.scad).
+- [panel/atenu-v-0-rev-b](./panel/atenu-v-0-rev-b): panel de 5 HP para la placa rev-b. Los agujeros son los mismos que en rev-a; solo cambia la versión grabada. Se abre [atenu.scad](./panel/atenu-v-0-rev-b/atenu.scad).
 - [terceros/popusintes-cajas-paneles](https://github.com/piruetasxyz/popusintes-cajas-paneles): submódulo de git con las constantes eurorack y las funciones y módulos de OpenSCAD compartidos entre las cajas y paneles de popusintes. Para clonar el repositorio con el submódulo: `git clone --recursive https://github.com/piruetasxyz/atenu.git`, o `git submodule update --init` si ya estaba clonado.
 - [docs](./docs): documentación, publicada en <https://piruetas.xyz/atenu/>. Las capturas del esquemático y de la placa, y la tabla de Bill of materials, las genera [kicad-retrata](https://github.com/piruetasxyz/kicad-retrata) en cada push (ver [kicad-retrata.yml](./kicad-retrata.yml)).
 - [LICENSES](./LICENSES): textos completos de las licencias.
