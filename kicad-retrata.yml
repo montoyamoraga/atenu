@@ -9,5 +9,5 @@ descripciones:
 # Para cambiar de revisión, actualizar "proyecto" (por ejemplo rev-a → rev-b).
 modulos:
   - nombre: atenu
-    proyecto: hardware/atenu-v-0-rev-a/atenu-v-0-rev-a
+    proyecto: hardware/atenu-v-0-rev-b/atenu-v-0-rev-b
     doc: docs/index.md

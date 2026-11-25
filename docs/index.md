@@ -4,8 +4,8 @@ Atenuador pasivo doble eurorack: dos canales independientes, cada uno con una en
 
 ## Revisiones
 
-- `v0.1 rev-a`: diseñada en octubre 2026 y fabricada en JLCPCB. Funciona, pero los potenciómetros quedaron al revés: girando en sentido horario baja el volumen.
-- `v0.1 rev-b`: en desarrollo. Corrige la huella de los potenciómetros.
+- `v0.1 rev-b`: fabricada y probada en noviembre 2026. Corrige la huella de los potenciómetros: en sentido horario sube el nivel.
+- `v0.1 rev-a`: fabricada en octubre 2026 en JLCPCB, probada y funciona, pero los potenciómetros quedaron al revés: en sentido horario baja el nivel.
 
 ## Cómo funciona
 
@@ -35,28 +35,44 @@ Gira el potenciómetro en sentido horario para subir el nivel de la salida. En l
 - La salida tiene la impedancia del potenciómetro (hasta 25k con el potenciómetro a la mitad), así que una entrada de baja impedancia en el módulo siguiente baja un poco el nivel. Con una entrada típica de 100k la diferencia es pequeña.
 - atenu solo atenúa: para invertir o amplificar una señal hace falta un módulo activo.
 
-## Esquemático y placa (v0.1 rev-a)
+## Esquemático y placa (v0.1 rev-b)
 
-Generados automáticamente por GitHub Actions a partir de `hardware/atenu-v-0-rev-a/atenu-v-0-rev-a.kicad_sch` y `.kicad_pcb` en cada push que los modifica.
+Generados automáticamente por GitHub Actions a partir de `hardware/atenu-v-0-rev-b/atenu-v-0-rev-b.kicad_sch` y `.kicad_pcb` en cada push que los modifica.
 
-![Esquemático de atenu v0.1 rev-a](./images/atenu-esquematico.svg)
+![Esquemático de atenu v0.1 rev-b](./images/atenu-esquematico.svg)
 
-![Placa de atenu v0.1 rev-a](./images/atenu-placa.svg)
+![Placa de atenu v0.1 rev-b](./images/atenu-placa.svg)
 
-## Bill of materials (v0.1 rev-a)
+Render 3D de la placa:
 
-Generado a partir de `hardware/atenu-v-0-rev-a/atenu-v-0-rev-a.kicad_sch`.
+<video src="./videos/atenu-placa-3d-giro.mp4" autoplay loop muted playsinline width="540">Render 3D de la placa de atenu v0.1 rev-b.</video>
+
+## Bill of materials (v0.1 rev-b)
+
+Generado a partir de `hardware/atenu-v-0-rev-b/atenu-v-0-rev-b.kicad_sch`.
 
 <!-- BOM_TABLE_START -->
 
 | Referencias | Cantidad | Valor | Huella | Descripción |
 | --- | --- | --- | --- | --- |
-| J1, J2, J3, J4 | 4 | AudioJack2_SwitchT | atenu-v-0-rev-a:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical | Jack mono 3.5 mm, QingPu WQP-PJ398SM (tipo Thonkiconn), vertical, THT |
-| RV1, RV2 | 2 | B100k | atenu-v-0-rev-a:POT_TH_Alps_RK09K_Single_Vertical | Potenciómetro lineal 9 mm, Alpha RD901F (Thonk), vertical, THT |
+| J1, J2, J3, J4 | 4 | AudioJack2_SwitchT | atenu-v-0-rev-b:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical | Jack mono 3.5 mm, QingPu WQP-PJ398SM (tipo Thonkiconn), vertical, THT |
+| RV1, RV2 | 2 | B100k | popusintes:Potenciometro_Alpha_RD901F_Vertical | Potenciómetro lineal 9 mm, Alpha RD901F (Thonk), vertical, THT |
 
 6 componentes en total.
 
 <!-- BOM_TABLE_END -->
+
+### Placa (PCB)
+
+Fabricar con los gerbers y archivos de taladrado de [`hardware/atenu-v-0-rev-b-fab`](https://github.com/piruetasxyz/atenu/tree/main/hardware/atenu-v-0-rev-b-fab).
+
+| Especificación | Valor |
+| --- | --- |
+| Capas | 2 |
+| Tamaño | 25 × 90 mm |
+| Grosor | 1.6 mm |
+| Cobre | 35 µm (1 oz) |
+| Acabado superficial | HASL sin plomo (LeadFree HASL) |
 
 ## Créditos
 

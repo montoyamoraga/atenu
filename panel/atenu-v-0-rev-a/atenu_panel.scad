@@ -22,18 +22,6 @@ ATENU_PCB_ALTO = 90;
 function atenu_px(x_pcb, ancho) = (x_pcb - ATENU_PCB_X0 + (ancho - ATENU_PCB_ANCHO) / 2) / ancho;
 function atenu_py(y_pcb, alto) = (y_pcb - ATENU_PCB_Y0 + (alto - ATENU_PCB_ALTO) / 2) / alto;
 
-// rebaje circular en la cara frontal (+z) alrededor de cada jack, para
-// que la tuerca baje y alcance mas rosca. el panel queda con
-// PANEL_PROFUNDIDAD - JACK_REBAJE_HONDO de espesor en esa zona
-JACK_REBAJE_DIAMETRO = 10;
-JACK_REBAJE_HONDO = 1.2;
-
-module rebaje_jack(ancho, alto, px, py) {
-  p = posicion(ancho, alto, px, py);
-  translate([p[0], p[1], PANEL_PROFUNDIDAD - JACK_REBAJE_HONDO])
-    cylinder(h = JACK_REBAJE_HONDO + 1, d = JACK_REBAJE_DIAMETRO, $fn = 50);
-}
-
 module atenu_panel() {
   ancho = MODULO_ANCHO * ATENU_HP;
   alto  = MODULO_ALTURA_3U;
