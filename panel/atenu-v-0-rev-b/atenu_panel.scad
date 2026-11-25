@@ -34,20 +34,19 @@ module atenu_panel() {
   JACKS = [[37, 40.92], [48, 47.92], [36, 101.92], [48, 110.92]];
 
   difference() {
-    panel_base(ancho, alto);
+    panel_base(ancho, alto, ATENU_PANEL_PROFUNDIDAD);
 
     union() {
-      agujeros_tornillos(ancho, alto, ambos_lados = false, elipse = true);
+      agujeros_tornillos(ancho, alto, espesor = ATENU_PANEL_PROFUNDIDAD, ambos_lados = false, elipse = true);
 
       for (p = POTES)
         agujero_perilla(ancho, alto, atenu_px(p[0], ancho), atenu_py(p[1], alto));
 
       for (p = JACKS) {
         agujero_jack(ancho, alto, atenu_px(p[0], ancho), atenu_py(p[1], alto));
-        rebaje_jack(ancho, alto, atenu_px(p[0], ancho), atenu_py(p[1], alto));
+        rebaje_jack(ancho, alto, atenu_px(p[0], ancho), atenu_py(p[1], alto),
+          ATENU_PANEL_PROFUNDIDAD, ATENU_JACK_REBAJE_HONDO);
       }
-
-      grabados_panel(ATENU_TEXTO, VERSION, ancho, alto);
     }
   }
 }
