@@ -24,8 +24,8 @@ El manual de uso está en la [documentación](https://piruetas.xyz/atenu/#manual
 
 ## Revisiones
 
-- `v0.1 rev-a`: diseñada en octubre 2026 y fabricada en JLCPCB. Funciona, pero los potenciómetros quedaron al revés (ver errores abajo).
-- `v0.1 rev-b`: en desarrollo. Corrige la huella de los potenciómetros y agrega simulación SPICE.
+- `v0.1 rev-b`: fabricada y probada en noviembre 2026. Corrige la huella de los potenciómetros (en sentido horario sube el nivel) y agrega simulación SPICE.
+- `v0.1 rev-a`: fabricada en octubre 2026 en JLCPCB, probada y funciona, pero los potenciómetros quedaron al revés (ver errores abajo).
 
 ### Errores conocidos de rev-a
 
@@ -41,38 +41,30 @@ rev-b se puede simular en KiCad (Inspeccionar → Simulador → Ejecutar). Los m
 
 Con RV1 en `pos=0.75` y RV2 en `pos=0.25`, ngspice da 3.16 V y 1.05 V de pico en las salidas, para 5 V de pico en las entradas (ganancia 0.63 y 0.21; la carga de 100k baja un poco la ganancia respecto a la posición del potenciómetro).
 
-### Pendientes para rev-b
+### Cambios en rev-b
 
-Ya está hecho en [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b):
+En [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b):
 
 - Biblioteca propia `popusintes` ([bibliotecas/popusintes.pretty](./hardware/atenu-v-0-rev-b/bibliotecas/popusintes.pretty) y [bibliotecas/popusintes.3dshapes](./hardware/atenu-v-0-rev-b/bibliotecas/popusintes.3dshapes)), copiada de [popusintes-esquematicos-placas](https://github.com/piruetasxyz/popusintes-esquematicos-placas) para que el repositorio sea autocontenido, con la huella corregida `Potenciometro_Alpha_RD901F_Vertical`: misma geometría que la de rev-a, con los pads 1 y 3 intercambiados. Visto de frente con las patas hacia abajo, pad 1 = pata izquierda (antihorario, GND), pad 3 = pata derecha (horario, entrada).
-- Pistas de entrada de RV1 y RV2 movidas a la pata derecha. DRC sin conexiones pendientes y sin diferencias con el esquemático.
-- Todo renombrado de rev-a a rev-b, incluida la carpeta de salida de los gerbers (`../atenu-v-0-rev-b-fab/`), para no pisar los archivos de rev-a. La fecha de la serigrafía quedó en `2026-11`.
+- Pistas de entrada de RV1 y RV2 movidas a la pata derecha, y zonas rellenadas de nuevo. DRC sin conexiones pendientes y sin diferencias con el esquemático.
+- Todo renombrado de rev-a a rev-b, incluida la carpeta de los gerbers ([hardware/atenu-v-0-rev-b-fab](./hardware/atenu-v-0-rev-b-fab)), para no pisar los archivos de rev-a. La fecha de la serigrafía es `2026-11`.
 - Modelos SPICE y campos `Sim.*` en el esquemático y en la placa.
-
-Falta:
-
-- [ ] Rellenar las zonas en KiCad (tecla B), guardar y revisar los potenciómetros en el visor 3D. **Antes de generar gerbers**: el relleno guardado de la zona GND es anterior al cambio de pads, así que todavía cubre la pata nueva de la entrada (la dejaría en corto con GND) y no llega a la pata nueva de GND. El DRC sin rellenar muestra esos errores; después de rellenar, el DRC queda sin conexiones pendientes y sin diferencias con el esquemático.
-- [ ] Revisar el texto de la serigrafía en un computador con las fuentes del proyecto instaladas antes de generar los gerbers.
-- [ ] Generar gerbers y archivos de taladrado de rev-b (`hardware/atenu-v-0-rev-b-fab`).
-- [x] Panel de rev-b: las posiciones de los potenciómetros y jacks no cambiaron, así que se copió el panel de rev-a a `panel/atenu-v-0-rev-b` con `VERSION = "v0.1 rev-b"`.
-- [ ] Actualizar [kicad-retrata.yml](./kicad-retrata.yml) y [docs](./docs) para que apunten a rev-b.
+- Panel: las posiciones de los potenciómetros y jacks no cambiaron, así que el panel de rev-a se copió a `panel/atenu-v-0-rev-b` con `VERSION = "v0.1 rev-b"`.
 
 ## Estructura del repositorio
 
-- [hardware/atenu-v-0-rev-a](./hardware/atenu-v-0-rev-a): proyecto de KiCad (esquemático y placa), los archivos fuente del diseño.
-- [hardware/atenu-v-0-rev-a/bibliotecas](./hardware/atenu-v-0-rev-a/bibliotecas): huellas y modelos 3D usados por el proyecto. Van en el repositorio para que el proyecto de KiCad se abra sin instalar bibliotecas adicionales.
-- [hardware/atenu-v-0-rev-a-fab](./hardware/atenu-v-0-rev-a-fab): gerbers y archivos de taladrado para fabricar la placa.
-- [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b): proyecto de KiCad de rev-b (en desarrollo). Sus [bibliotecas](./hardware/atenu-v-0-rev-b/bibliotecas) incluyen la biblioteca propia `popusintes` con la huella corregida del potenciómetro, y los modelos SPICE en `spice/`.
-- [panel/atenu-v-0-rev-a](./panel/atenu-v-0-rev-a): archivos fuente de OpenSCAD del panel de 5 HP, con los agujeros de los potenciómetros y jacks de la placa rev-a. Se abre [atenu.scad](./panel/atenu-v-0-rev-a/atenu.scad); la versión grabada en el panel está en [versiones.scad](./panel/atenu-v-0-rev-a/versiones.scad).
-- [panel/atenu-v-0-rev-b](./panel/atenu-v-0-rev-b): panel de 5 HP para la placa rev-b. Los agujeros son los mismos que en rev-a; solo cambia la versión grabada. Se abre [atenu.scad](./panel/atenu-v-0-rev-b/atenu.scad).
+- [hardware/atenu-v-0-rev-b](./hardware/atenu-v-0-rev-b): proyecto de KiCad (esquemático y placa) de la revisión actual, los archivos fuente del diseño. Sus [bibliotecas](./hardware/atenu-v-0-rev-b/bibliotecas) incluyen la biblioteca propia `popusintes` con la huella corregida del potenciómetro, y los modelos SPICE en `spice/`. Van en el repositorio para que el proyecto de KiCad se abra sin instalar bibliotecas adicionales.
+- [hardware/atenu-v-0-rev-b-fab](./hardware/atenu-v-0-rev-b-fab): gerbers y archivos de taladrado para fabricar la placa de la revisión actual.
+- [hardware/atenu-v-0-rev-a](./hardware/atenu-v-0-rev-a) y [hardware/atenu-v-0-rev-a-fab](./hardware/atenu-v-0-rev-a-fab): revisión anterior, con los potenciómetros al revés.
+- [panel/atenu-v-0-rev-b](./panel/atenu-v-0-rev-b): archivos fuente de OpenSCAD del panel de 5 HP para la placa rev-b. Se abre [atenu.scad](./panel/atenu-v-0-rev-b/atenu.scad).
+- [panel/atenu-v-0-rev-a](./panel/atenu-v-0-rev-a): panel de 5 HP para la placa rev-a. Los agujeros son los mismos que en rev-b; solo cambia la versión grabada, que está en [versiones.scad](./panel/atenu-v-0-rev-a/versiones.scad).
 - [terceros/popusintes-cajas-paneles](https://github.com/piruetasxyz/popusintes-cajas-paneles): submódulo de git con las constantes eurorack y las funciones y módulos de OpenSCAD compartidos entre las cajas y paneles de popusintes. Para clonar el repositorio con el submódulo: `git clone --recursive https://github.com/piruetasxyz/atenu.git`, o `git submodule update --init` si ya estaba clonado.
 - [docs](./docs): documentación, publicada en <https://piruetas.xyz/atenu/>. Las capturas del esquemático y de la placa, y la tabla de Bill of materials, las genera [kicad-retrata](https://github.com/piruetasxyz/kicad-retrata) en cada push (ver [kicad-retrata.yml](./kicad-retrata.yml)).
 - [LICENSES](./LICENSES): textos completos de las licencias.
 
 ## Fabricación
 
-Como es hardware de código abierto, los archivos fuente de KiCad, los archivos de fabricación de [hardware/atenu-v-0-rev-a-fab](./hardware/atenu-v-0-rev-a-fab) y la [Bill of materials](https://piruetas.xyz/atenu/#bill-of-materials-v01-rev-a) están publicados para que cualquiera pueda estudiar, modificar y fabricar el diseño. piruetas no da soporte para unidades fabricadas o armadas por terceros.
+Como es hardware de código abierto, los archivos fuente de KiCad, los archivos de fabricación de [hardware/atenu-v-0-rev-b-fab](./hardware/atenu-v-0-rev-b-fab) y la [Bill of materials](https://piruetas.xyz/atenu/#bill-of-materials-v01-rev-b) están publicados para que cualquiera pueda estudiar, modificar y fabricar el diseño. piruetas no da soporte para unidades fabricadas o armadas por terceros.
 
 ## Créditos
 

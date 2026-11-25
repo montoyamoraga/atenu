@@ -1,8 +1,8 @@
 name: Retratar y publicar
 
-# Genera las capturas y la BOM con kicad-retrata (y hace commit si cambian),
-# y después construye docs/ con Jekyll y lo despliega en GitHub Pages, todo
-# en la misma corrida.
+# Genera el video del render 3D con kicad-visor, las capturas y la BOM con
+# kicad-retrata (y hace commit de lo que cambie), y después construye docs/
+# con Jekyll y lo despliega en GitHub Pages, todo en la misma corrida.
 on:
   push:
     branches:
@@ -19,12 +19,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Genera el video del render 3D de la placa girando, con el estilo estándar
+  # de popusintes, y hace commit si cambia. El estilo y los pasos están en
+  # https://github.com/piruetasxyz/popusintes/blob/main/.github/workflows/girar-placa.yml
+  girar:
+    if: github.repository == 'piruetasxyz/atenu'
+    uses: piruetasxyz/popusintes/.github/workflows/girar-placa.yml@main
+    secrets: inherit
+
   construir:
+    needs: girar
     if: github.repository == 'piruetasxyz/atenu'
     runs-on: ubuntu-latest
     steps:
+      # Se clona la punta de la rama, no el commit que disparó la corrida,
+      # para incluir el video que girar pudo haber agregado; si no, el push
+      # de kicad-retrata sería rechazado.
       - name: Clonar repositorio
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
 
       # Talagante no puede quedar pública en el repositorio: se guarda en
       # base64 en el secreto FUENTE_TALAGANTE y se escribe fuera del
